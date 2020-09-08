@@ -24,7 +24,7 @@ export const useFecth = (url) => {
           } else {
             console.log('no se llamo')
           }
-      }, 3000)
+      }, 1000)
     });
  }, [url]);
  return state;
