@@ -1,55 +1,49 @@
-import React, { useReducer } from 'react'
+import React, { useReducer, useEffect } from 'react'
 import './styles.css';
 import { toDoReducer } from './toDoReducer';
-const initialState = [
-    {
-        id: new Date().getTime(),
-        desc: 'Que paso rey',
-        done: false
-    }
-]
+import { ToDoList } from './ToDoList';
+import { ToDoAdd } from './ToDoAdd';
+
+const init = () => {
+   return JSON.parse( localStorage.getItem('todos')) || [];   
+}
 export const TooDoApp = () => {
 
-    const [toDos] = useReducer(toDoReducer, initialState);
-    console.log(toDos)
+    const [toDos, dispatch] = useReducer(toDoReducer, [], init);
+
+    useEffect(() => {
+       localStorage.setItem('todos', JSON.stringify(toDos))
+    }, [toDos])
+    
+    const handlerDelete = (toDoId) => {
+        const actionDelete = {
+            type: 'delete',
+            payload: toDoId
+        }
+        dispatch(actionDelete);
+    }
+
+    const handlerToggle = (toDoId) =>{
+        dispatch({type: 'toggle', payload: toDoId})
+    }
+
+    const handlerAddToDo = (newTodo) => {
+        dispatch({
+            type: 'add',
+            payload: newTodo
+        });
+    }
+
     return (
         <div>
             <h1>ToDoApp ({toDos.length})</h1>
             <hr />
           <div className="row">
             <div className="col-7">
-                <ul className="list-group list-group-flush">
-                    {
-                        toDos.map((toDO, i) => (
-                            <li
-                                key={toDO.id}
-                                className="list-group-item">
-                                <p className="text-center">{i +1}. {toDO.desc}</p>
-                                <button
-                                    className="btn btn-danger">
-                                        Borrar
-                                    </button>
-                            </li>
-                        ))
-                    }
-                </ul>
+             <ToDoList toDos={toDos} handlerDelete={handlerDelete} handlerToggle={handlerToggle}/>
             </div>
             <div className="col-5">
-                <h4>Agregar ToDo</h4>
-                <hr />
-                <form>
-                    <input 
-                            type="text"
-                            name="description"
-                            placeholder="Learn .."
-                            autoComplete="off"
-                            className="form-control"
-                            />
-                            <button
-                                    className="btn btn-outline-primary mt-1 btn-block">
-                                    Agregar
-                            </button>
-                </form>
+                <ToDoAdd todoAdd={handlerAddToDo}/>
             </div>
           </div>
         </div>
