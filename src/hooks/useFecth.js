@@ -25,7 +25,11 @@ export const useFecth = (url) => {
             console.log('no se llamo')
           }
       }, 1000)
-    });
+    }).catch(() => setstate({
+      data: null,
+      loading: false,
+      error: 'any error'
+    }));
  }, [url]);
  return state;
 }

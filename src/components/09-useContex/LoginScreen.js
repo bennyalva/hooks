@@ -9,7 +9,9 @@ export const LoginScreen = () => {
             <h1>LoginScreen</h1>
             <hr />
             <button
-                    onClick={() => setUser({id: 123456, name: 'rey'})}>Login</button>
+                    onClick={() => setUser({id: 123456, name: 'rey'})}>
+                        Login
+            </button>
         </div>
     )
 }
