@@ -14,7 +14,8 @@ describe('Test on AppRouter', () => {
        <AppRouter />
    </UserContext.Provider>)
    test('should show correctly', () => {
-      expect(wrapper).toMatchSnapshot(); 
+      expect(wrapper).toMatchSnapshot();
+       
    });
    
 });
